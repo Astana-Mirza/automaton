@@ -57,8 +57,10 @@ CryptoAutomaton<In, Out, State, TransFunc, OutFunc, KeyType>::operator =(
 		const CryptoAutomaton& other) {
 	if (this == &other)
 		return *this;
-	FiniteAutomaton<In, Out, State, TransFunc, OutFunc>::operator =(other);
-	key = other.key;
+	this->curr_state = other.curr_state;
+	this->transform = other.transform;
+	this->output = other.output;
+	this->key = other.key;
 	return *this;
 }
 
@@ -66,8 +68,8 @@ template <typename In, typename Out, typename State,
 	typename TransFunc, typename OutFunc, typename KeyType>
 Out CryptoAutomaton<In, Out, State, TransFunc, OutFunc, KeyType>::
 step(const In& word) {
-	Out ret = this->output(word, this->curr_state, key);
-	this->curr_state = this->transform(word, this->curr_state, key);
+	Out ret = this->output(word, this->curr_state, this->key);
+	this->curr_state = this->transform(word, this->curr_state, this->key);
 	return ret;
 }
 
