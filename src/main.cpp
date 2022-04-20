@@ -1,4 +1,4 @@
-#include "../inc/mainwindow.h"
+#include "../include/mainwindow.h"
 /*#include <iostream>
 #include <cstdint>
 #include <vector>
@@ -26,9 +26,10 @@ int main() {
 
 #include <QApplication>
 
-int main(int argc, char *argv[]) {
-	QApplication a(argc, argv);
-	MainWindow w;
-	w.show();
-	return a.exec();
+int main( int argc, char *argv[] )
+{
+     QApplication a( argc, argv );
+     MainWindow w;
+     w.show();
+     return a.exec();
 }

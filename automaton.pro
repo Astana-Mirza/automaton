@@ -16,17 +16,24 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 QMAKE_CXXFLAGS += $$system(python3-config --includes)
 LIBS += $$system(python3-config --embed --ldflags)
-INCLUDEPATH += extern/pybind11/include
+INCLUDEPATH += extern/pybind11/include \
+               extern/libkam/include
+
+make_libkam.target   = extern/libkam/build/libkam.so
+make_libkam.commands = cd $${PWD}/extern/libkam && \
+                       make && \
+                       cp build/libkam.so $${OUT_PWD} && \
+                       cd ../../
+PRE_TARGETDEPS      += extern/libkam/build/libkam.so
+QMAKE_EXTRA_TARGETS += make_libkam
 
 SOURCES += \
     src/main.cpp \
     src/mainwindow.cpp
 
 HEADERS += \
-    inc/mainwindow.h \
-    inc/automatons/finite_automaton.h \
-    inc/automatons/crypto_automaton.h \
-    inc/python_function.h
+    include/mainwindow.h \
+    include/python_function.h
 
 FORMS += \
     mainwindow.ui

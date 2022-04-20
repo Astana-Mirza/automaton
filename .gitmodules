@@ -2,3 +2,7 @@
 	path = extern/pybind11
 	url = ../../pybind/pybind11
 	branch = stable
+[submodule "extern/libkam"]
+	path = extern/libkam
+	url = git@github.com:Astana-Mirza/libkam.git
+	branch = main
