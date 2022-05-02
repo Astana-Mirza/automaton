@@ -13,14 +13,6 @@ COMPILE ON WINDOWS WITH GOD'S MERCY
 namespace py = pybind11;
 
 PYBIND11_MODULE(bit, m) {
-	m.def("has_single_bit64", std::has_single_bit<uint64_t>);
-	m.def("has_single_bit32", std::has_single_bit<uint32_t>);
-	m.def("bit_ceil64", std::bit_ceil<uint64_t>);
-	m.def("bit_ceil32", std::bit_ceil<uint32_t>);
-	m.def("bit_floor64", std::bit_floor<uint64_t>);
-	m.def("bit_floor32", std::bit_floor<uint32_t>);
-	m.def("bit_width64", std::bit_width<uint64_t>);
-	m.def("bit_width32", std::bit_width<uint32_t>);
 	m.def("rotl64", std::rotl<uint64_t>);
 	m.def("rotl32", std::rotl<uint32_t>);
 	m.def("rotr64", std::rotr<uint64_t>);
