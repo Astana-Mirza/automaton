@@ -61,10 +61,12 @@ QMAKE_EXTRA_TARGETS += make_libkam adaptor_prepare bit_adaptor vector_adaptor
 
 
 SOURCES += \
+    src/automaton_gi.cpp \
     src/main.cpp \
     src/mainwindow.cpp
 
 HEADERS += \
+    include/automaton_gi.h \
     include/mainwindow.h \
     include/python_function.h
 
