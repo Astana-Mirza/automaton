@@ -2,22 +2,18 @@
 
 AutomatonGI::AutomatonGI(uint32_t index):
         QGraphicsItem(),
-        automaton_index(index)
-{
+        automaton_index(index) {}
 
-}
+AutomatonGI::~AutomatonGI() {}
 
-AutomatonGI::~AutomatonGI()
-{
-
-}
 
 QRectF AutomatonGI::boundingRect() const
 {
     return QRectF(-60, -35, 120, 70);
 }
 
-void AutomatonGI::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+
+void AutomatonGI::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
     QPolygon polygon;
 
@@ -48,9 +44,6 @@ void AutomatonGI::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
     painter->drawPolygon(polygon);
     painter->drawLine(!input ? -60 : -45, 0, -35, 0);
     painter->drawLine(!output ? 60 :  45, 0,  35, 0);
-
-    Q_UNUSED(option);
-    Q_UNUSED(widget);
 }
 
 
@@ -62,12 +55,45 @@ void AutomatonGI::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     );
 }
 
-void AutomatonGI::mousePressEvent(QGraphicsSceneMouseEvent *event)
+
+void AutomatonGI::mousePressEvent(QGraphicsSceneMouseEvent * )
 {
-    this->setCursor(QCursor(Qt::ClosedHandCursor));
+     this->setCursor( QCursor( Qt::ClosedHandCursor ) );
 }
 
-void AutomatonGI::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+
+void AutomatonGI::mouseReleaseEvent( QGraphicsSceneMouseEvent * )
 {
-    this->setCursor(QCursor(Qt::ArrowCursor));
+     this->setCursor( QCursor( Qt::ArrowCursor ) );
+     auto colliding = collidingItems( Qt::IntersectsItemBoundingRect );
+     for ( QGraphicsItem* item : colliding )
+     {
+          AutomatonGI* automaton = dynamic_cast<AutomatonGI*>( item );
+          if ( automaton->scenePos().x() <= scenePos().x() && !automaton->is_output_set() )
+          {
+               set_input( automaton );
+               automaton->set_output( this );
+               setPos( automaton->scenePos().x() + automaton->boundingRect().width(),
+                       automaton->scenePos().y() );
+               break;
+          }
+          else if ( automaton->scenePos().x() >= scenePos().x() && !automaton->is_input_set() )
+          {
+               set_output( automaton );
+               automaton->set_input( this );
+               setPos( automaton->scenePos().x() - automaton->boundingRect().width(),
+                       automaton->scenePos().y() );
+               break;
+          }
+     }
+     if ( is_input_set() )
+     {
+          get_input()->set_output( nullptr );
+     }
+     set_input( nullptr );
+     if ( is_output_set() )
+     {
+          get_output()->set_input( nullptr );
+     }
+     set_output( nullptr );
 }

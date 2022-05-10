@@ -26,7 +26,6 @@ private slots:
      void on_action_save_as_triggered();
 
 private:
-     bool eventFilter(QObject* target, QEvent* event);
      void setup_scene();
      void setup_timer();
 

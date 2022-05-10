@@ -13,13 +13,13 @@ public:
     explicit AutomatonGI(uint32_t index = 0);
     ~AutomatonGI();
 
-    void set_input ( AutomatonGI* input  = nullptr ) { this->input = input; }
-    void set_output( AutomatonGI* output = nullptr ) { this->output = output; }
+    void set_input ( AutomatonGI* input  ) { this->input = input; }
+    void set_output( AutomatonGI* output ) { this->output = output; }
 
-    bool is_input_set() const { return input; }
+    bool is_input_set()  const { return input; }
     bool is_output_set() const { return output; }
 
-    AutomatonGI* get_input() const { return input; }
+    AutomatonGI* get_input()  const { return input; }
     AutomatonGI* get_output() const { return output; }
 
     QRectF boundingRect() const;
