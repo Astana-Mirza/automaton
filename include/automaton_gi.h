@@ -1,9 +1,10 @@
 #ifndef AUTOMATON_GI_H
 #define AUTOMATON_GI_H
 
-#include <element_gi.h>
 #include <python_function.h>
 #include <automaton/finite_automaton.h>
+#include <element_gi.h>
+#include <input_gi.h>
 #include <QPainter>
 #include <QGraphicsSceneMouseEvent>
 
@@ -25,10 +26,12 @@ protected:
      void mousePressEvent( QGraphicsSceneMouseEvent *event );
      void mouseReleaseEvent( QGraphicsSceneMouseEvent *event );
 
+     bool check_input_colliding( QGraphicsItem* item );
+
 private:
-     FiniteAutomaton< std::string, std::string, std::string,
-                      PythonFunction< std::string >,
-                      PythonFunction< std::string > > processor_;
+//     FiniteAutomaton< std::string, std::string, std::string,
+//                      PythonFunction< std::string >,
+//                      PythonFunction< std::string > > processor_;
      uint32_t automaton_index_;
 };
 

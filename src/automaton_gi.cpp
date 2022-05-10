@@ -7,8 +7,11 @@ AutomatonGI::AutomatonGI( const std::string& init_state,
                           const std::string& out_file,
                           const std::string& out_func_name,
                           uint32_t index ):
-     processor_(init_state, { tr_file, tr_func_name }, { out_file, out_func_name } ),
-     automaton_index_( index ) {}
+//     processor_(init_state, { tr_file, tr_func_name }, { out_file, out_func_name } ),
+     automaton_index_( index )
+{
+
+}
 
 
 QRectF AutomatonGI::boundingRect() const
@@ -70,6 +73,14 @@ void AutomatonGI::mouseReleaseEvent( QGraphicsSceneMouseEvent * )
      for ( QGraphicsItem* item : colliding )
      {
           AutomatonGI* automaton = dynamic_cast<AutomatonGI*>( item );
+          if ( !automaton )
+          {
+              bool input_colliding = check_input_colliding( item );
+              if (input_colliding)
+                  break;
+              continue;
+          }
+
           if ( automaton->scenePos().x() <= scenePos().x() && !automaton->is_output_set() )
           {
                set_input( automaton );
@@ -88,4 +99,18 @@ void AutomatonGI::mouseReleaseEvent( QGraphicsSceneMouseEvent * )
           }
      }
      update();
+}
+
+bool AutomatonGI::check_input_colliding( QGraphicsItem* item )
+{
+    InputGI* input_gi = dynamic_cast<InputGI*>( item );
+    if ( !input_gi )
+        return false;
+    if ( input_gi->is_input_set() || input_gi->scenePos().x() > scenePos().x() )
+        return false;
+    input_gi->set_output( this );
+    set_input( input_gi );
+    setPos( item->scenePos().x() + ( item->boundingRect().width() / 4 ) + ( boundingRect().width() / 2 ),
+           item->scenePos().y() );
+    return true;
 }

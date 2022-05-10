@@ -1,8 +1,8 @@
 #ifndef PYTHON_FUNCTION_H
 #define PYTHON_FUNCTION_H
 
-#include <string>
 #include <pybind11/pybind11.h>
+#include <string>
 
 template < typename Out >
 class PythonFunction

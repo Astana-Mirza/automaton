@@ -3,6 +3,7 @@
 
 #include <pybind11/embed.h>
 #include <automaton_gi.h>
+#include <input_gi.h>
 #include <QMainWindow>
 #include <QGraphicsScene>
 #include <QTimer>
@@ -37,6 +38,7 @@ private:
      QTimer timer_;
 
      QGraphicsScene* scene_ = nullptr;
+     InputGI* input_;
      QVector<AutomatonGI*> automatons_;
 };
 

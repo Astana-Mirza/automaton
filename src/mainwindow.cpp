@@ -20,9 +20,14 @@ MainWindow::MainWindow( QWidget *parent ):
      automatons_.push_back( new AutomatonGI( "", "", "", "", "", 1 ) );
      // automatons_[ 0 ]->set_output( automatons_[ 1 ] );
      // automatons_[ 1 ]->set_input( automatons_[ 0 ] );
+     input_ = new InputGI;
+     scene_->addItem( input_ );
      scene_->addItem( automatons_[ 0 ] );
      scene_->addItem( automatons_[ 1 ] );
+
      automatons_[ 1 ]->setPos( automatons_[ 0 ]->scenePos().x() + 120,
+                               automatons_[ 0 ]->scenePos().y() );
+     input_->setPos( automatons_[ 0 ]->scenePos().x() - 85,
                                automatons_[ 0 ]->scenePos().y() );
 }
 
@@ -31,11 +36,12 @@ MainWindow::~MainWindow()
 {
      delete ui_;
      delete scene_;
+     delete input_;
 }
 
 void MainWindow::setup_scene()
 {
-     scene_ = new QGraphicsScene;
+     scene_ = new QGraphicsScene(this);
      ui_->graphicsView->setAlignment( Qt::AlignCenter );
      ui_->graphicsView->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
      ui_->graphicsView->setMinimumHeight( 200 );
