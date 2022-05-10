@@ -7,8 +7,8 @@ class ElementGI : public QGraphicsItem
 {
 public:
      virtual ~ElementGI() = default;
-     void set_input ( ElementGI* input  ) { input_ = input; }
-     void set_output( ElementGI* output ) { output_ = output; }
+     virtual void set_input ( ElementGI* input  ) { input_ = input; }
+     virtual void set_output( ElementGI* output ) { output_ = output; }
 
      bool is_input_set()  const { return input_; }
      bool is_output_set() const { return output_; }

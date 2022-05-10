@@ -61,6 +61,7 @@ QMAKE_EXTRA_TARGETS += make_libkam adaptor_prepare bit_adaptor vector_adaptor
 
 
 SOURCES += \
+    src/connector_gi.cpp \
     src/input_gi.cpp \
     src/automaton_gi.cpp \
     src/main.cpp \
@@ -68,6 +69,7 @@ SOURCES += \
 
 HEADERS += \
     include/automaton_gi.h \
+    include/connector_gi.h \
     include/element_gi.h \
     include/input_gi.h \
     include/mainwindow.h \

@@ -54,10 +54,10 @@ void InputGI::mouseReleaseEvent( QGraphicsSceneMouseEvent *event )
 
          if ( automaton->scenePos().x() >= scenePos().x() && !automaton->is_input_set() )
          {
-              set_output( automaton );
               automaton->set_input( this );
               setPos( automaton->scenePos().x() - ( boundingRect().width() / 4 ) - ( automaton->boundingRect().width() / 2 ),
                       automaton->scenePos().y() );
+              set_output( automaton );
               break;
          }
     }

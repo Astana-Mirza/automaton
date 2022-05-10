@@ -5,6 +5,7 @@
 #include <automaton/finite_automaton.h>
 #include <element_gi.h>
 #include <input_gi.h>
+#include <connector_gi.h>
 #include <QPainter>
 #include <QGraphicsSceneMouseEvent>
 
@@ -17,9 +18,10 @@ public:
                            const std::string& out_file,
                            const std::string& out_func_name,
                            uint32_t index = 0 );
-     ~AutomatonGI() = default;
-     QRectF boundingRect() const;
+     ~AutomatonGI();
 
+     void set_output( ElementGI* output );
+     QRectF boundingRect() const;
 protected:
      void paint( QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget );
      void mouseMoveEvent( QGraphicsSceneMouseEvent *event );
@@ -33,6 +35,7 @@ private:
 //                      PythonFunction< std::string >,
 //                      PythonFunction< std::string > > processor_;
      uint32_t automaton_index_;
+     ConnectorGI* connector = nullptr;
 };
 
 #endif // AUTOMATON_GI_H

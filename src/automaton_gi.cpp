@@ -1,5 +1,6 @@
 #include <automaton_gi.h>
 #include <QCursor>
+#include <QGraphicsScene>
 
 AutomatonGI::AutomatonGI( const std::string& init_state,
                           const std::string& tr_file,
@@ -11,6 +12,11 @@ AutomatonGI::AutomatonGI( const std::string& init_state,
      automaton_index_( index )
 {
 
+}
+
+AutomatonGI::~AutomatonGI()
+{
+    delete connector;
 }
 
 
@@ -50,13 +56,12 @@ void AutomatonGI::mouseMoveEvent( QGraphicsSceneMouseEvent *event )
 }
 
 
-void AutomatonGI::mousePressEvent( QGraphicsSceneMouseEvent * )
+void AutomatonGI::mousePressEvent( QGraphicsSceneMouseEvent *event )
 {
      setCursor( QCursor( Qt::ClosedHandCursor ) );
 }
 
-
-void AutomatonGI::mouseReleaseEvent( QGraphicsSceneMouseEvent * )
+void AutomatonGI::mouseReleaseEvent( QGraphicsSceneMouseEvent *event )
 {
      setCursor( QCursor( Qt::ArrowCursor ) );
      auto colliding = collidingItems( Qt::IntersectsItemBoundingRect );
@@ -80,25 +85,45 @@ void AutomatonGI::mouseReleaseEvent( QGraphicsSceneMouseEvent * )
                   break;
               continue;
           }
-
           if ( automaton->scenePos().x() <= scenePos().x() && !automaton->is_output_set() )
           {
-               set_input( automaton );
                automaton->set_output( this );
                setPos( automaton->scenePos().x() + automaton->boundingRect().width(),
                        automaton->scenePos().y() );
+               set_input( automaton );
                break;
           }
           else if ( automaton->scenePos().x() >= scenePos().x() && !automaton->is_input_set() )
           {
-               set_output( automaton );
                automaton->set_input( this );
                setPos( automaton->scenePos().x() - automaton->boundingRect().width(),
                        automaton->scenePos().y() );
+               set_output( automaton );
                break;
           }
      }
      update();
+}
+
+void AutomatonGI::set_output( ElementGI* output )
+{
+    ElementGI::set_output( output );
+    if ( !output )
+    {
+        if ( connector )
+            scene()->removeItem( connector );
+        connector = nullptr;
+    } else
+    {
+        connector = new ConnectorGI( this );
+
+        connector->setPos(
+            scenePos().x() + ( boundingRect().width() / 2 - 15 ) + ( connector->boundingRect().width() / 2 ),
+            scenePos().y()
+        );
+        scene()->addItem(connector);
+    }
+    update();
 }
 
 bool AutomatonGI::check_input_colliding( QGraphicsItem* item )
