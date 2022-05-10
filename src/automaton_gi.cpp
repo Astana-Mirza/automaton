@@ -1,71 +1,72 @@
 #include <automaton_gi.h>
+#include <QCursor>
 
-AutomatonGI::AutomatonGI(uint32_t index):
-        QGraphicsItem(),
-        automaton_index(index) {}
-
-AutomatonGI::~AutomatonGI() {}
+AutomatonGI::AutomatonGI( const std::string& init_state,
+                          const std::string& tr_file,
+                          const std::string& tr_func_name,
+                          const std::string& out_file,
+                          const std::string& out_func_name,
+                          uint32_t index ):
+     processor_(init_state, { tr_file, tr_func_name }, { out_file, out_func_name } ),
+     automaton_index_( index ) {}
 
 
 QRectF AutomatonGI::boundingRect() const
 {
-    return QRectF(-60, -35, 120, 70);
+     return QRectF( -60, -35, 120, 70 );
 }
 
 
-void AutomatonGI::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
+void AutomatonGI::paint( QPainter *painter, const QStyleOptionGraphicsItem *, QWidget * )
 {
-    QPolygon polygon;
+     QPolygon polygon;
+     polygon << QPoint( -35, -35 ) << QPoint( -35, 35 )
+             << QPoint( 35, 35 )   << QPoint( 35, -35 );
+     painter->setPen( Qt::black );
+     painter->drawText( QRect{ -20, -20, 40, 40 }, Qt::AlignHCenter | Qt::AlignVCenter,
+                        QString::number( automaton_index_ ) );
 
-    polygon << QPoint(-35, -35) << QPoint(-35, 35)
-            << QPoint(35, 35) << QPoint(35, -35);
-    painter->setPen(Qt::black);
-    painter->drawText(
-        QRect{-20, -20, 40, 40},
-        Qt::AlignHCenter | Qt::AlignVCenter,
-        QString::number(this->automaton_index)
-    );
+     QFont in_out_font = painter->font();
+     in_out_font.setPixelSize( 10 );
+     painter->setFont( in_out_font );
+     painter->drawText( QRect{-50, -15, 13, 15},
+                        Qt::AlignRight | Qt::AlignVCenter, "in" );
+     painter->drawText( QRect{38, -15, 15, 15},
+                        Qt::AlignLeft | Qt::AlignVCenter, "out" );
 
-    QFont in_out_font = painter->font();
-    in_out_font.setPixelSize(10);
-    painter->setFont(in_out_font);
-    painter->drawText(
-        QRect{-50, -15, 13, 15},
-        Qt::AlignRight | Qt::AlignVCenter,
-        "in"
-    );
-    painter->drawText(
-        QRect{38, -15, 15, 15},
-        Qt::AlignLeft | Qt::AlignVCenter,
-        "out"
-    );
-
-    painter->setBrush(QBrush(Qt::NoBrush));
-    painter->drawPolygon(polygon);
-    painter->drawLine(!input ? -60 : -45, 0, -35, 0);
-    painter->drawLine(!output ? 60 :  45, 0,  35, 0);
+     painter->setBrush( QBrush( Qt::NoBrush ) );
+     painter->drawPolygon( polygon );
+     painter->drawLine( !is_input_set() ? -60 : -45, 0, -35, 0 );
+     painter->drawLine( !is_output_set() ? 60 :  45, 0,  35, 0 );
 }
 
 
-void AutomatonGI::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+void AutomatonGI::mouseMoveEvent( QGraphicsSceneMouseEvent *event )
 {
-    this->setPos(
-        event->scenePos().x(),
-        event->scenePos().y()
-    );
+     setPos( event->scenePos().x(), event->scenePos().y() );
 }
 
 
-void AutomatonGI::mousePressEvent(QGraphicsSceneMouseEvent * )
+void AutomatonGI::mousePressEvent( QGraphicsSceneMouseEvent * )
 {
-     this->setCursor( QCursor( Qt::ClosedHandCursor ) );
+     setCursor( QCursor( Qt::ClosedHandCursor ) );
 }
 
 
 void AutomatonGI::mouseReleaseEvent( QGraphicsSceneMouseEvent * )
 {
-     this->setCursor( QCursor( Qt::ArrowCursor ) );
+     setCursor( QCursor( Qt::ArrowCursor ) );
      auto colliding = collidingItems( Qt::IntersectsItemBoundingRect );
+     if ( is_input_set() )
+     {
+          get_input()->set_output( nullptr );
+     }
+     set_input( nullptr );
+     if ( is_output_set() )
+     {
+          get_output()->set_input( nullptr );
+     }
+     set_output( nullptr );
      for ( QGraphicsItem* item : colliding )
      {
           AutomatonGI* automaton = dynamic_cast<AutomatonGI*>( item );
@@ -86,14 +87,5 @@ void AutomatonGI::mouseReleaseEvent( QGraphicsSceneMouseEvent * )
                break;
           }
      }
-     if ( is_input_set() )
-     {
-          get_input()->set_output( nullptr );
-     }
-     set_input( nullptr );
-     if ( is_output_set() )
-     {
-          get_output()->set_input( nullptr );
-     }
-     set_output( nullptr );
+     update();
 }

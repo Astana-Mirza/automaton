@@ -47,7 +47,22 @@
     <addaction name="action_save"/>
     <addaction name="action_save_as"/>
    </widget>
+   <widget class="QMenu" name="menuAutomaton">
+    <property name="title">
+     <string>Automaton</string>
+    </property>
+    <widget class="QMenu" name="menuNew">
+     <property name="title">
+      <string>New</string>
+     </property>
+     <addaction name="action_add_finite_automaton"/>
+     <addaction name="action_add_crypto_automaton"/>
+    </widget>
+    <addaction name="menuNew"/>
+    <addaction name="action_remove"/>
+   </widget>
    <addaction name="menu"/>
+   <addaction name="menuAutomaton"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="action_open">
@@ -63,6 +78,21 @@
   <action name="action_save_as">
    <property name="text">
     <string>Save as</string>
+   </property>
+  </action>
+  <action name="action_add_finite_automaton">
+   <property name="text">
+    <string>Finite automaton</string>
+   </property>
+  </action>
+  <action name="action_add_crypto_automaton">
+   <property name="text">
+    <string>Crypto automaton</string>
+   </property>
+  </action>
+  <action name="action_remove">
+   <property name="text">
+    <string>Remove</string>
    </property>
   </action>
  </widget>

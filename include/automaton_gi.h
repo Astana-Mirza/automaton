@@ -1,42 +1,35 @@
 #ifndef AUTOMATON_GI_H
 #define AUTOMATON_GI_H
 
-#include <QWidget>
-#include <QGraphicsItem>
+#include <element_gi.h>
+#include <python_function.h>
+#include <automaton/finite_automaton.h>
 #include <QPainter>
 #include <QGraphicsSceneMouseEvent>
-#include <QString>
 
-class AutomatonGI: public QGraphicsItem
+class AutomatonGI: public ElementGI
 {
 public:
-    explicit AutomatonGI(uint32_t index = 0);
-    ~AutomatonGI();
+     explicit AutomatonGI( const std::string& init_state,
+                           const std::string& tr_file,
+                           const std::string& tr_func_name,
+                           const std::string& out_file,
+                           const std::string& out_func_name,
+                           uint32_t index = 0 );
+     ~AutomatonGI() = default;
+     QRectF boundingRect() const;
 
-    void set_input ( AutomatonGI* input  ) { this->input = input; }
-    void set_output( AutomatonGI* output ) { this->output = output; }
-
-    bool is_input_set()  const { return input; }
-    bool is_output_set() const { return output; }
-
-    AutomatonGI* get_input()  const { return input; }
-    AutomatonGI* get_output() const { return output; }
-
-    QRectF boundingRect() const;
 protected:
-    void paint(
-        QPainter *painter,
-        const QStyleOptionGraphicsItem *option,
-        QWidget *widget
-    );
+     void paint( QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget );
+     void mouseMoveEvent( QGraphicsSceneMouseEvent *event );
+     void mousePressEvent( QGraphicsSceneMouseEvent *event );
+     void mouseReleaseEvent( QGraphicsSceneMouseEvent *event );
 
-    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
-    void mousePressEvent(QGraphicsSceneMouseEvent *event);
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
-
-    AutomatonGI* input  = nullptr;
-    AutomatonGI* output = nullptr;
-    uint32_t automaton_index;
+private:
+     FiniteAutomaton< std::string, std::string, std::string,
+                      PythonFunction< std::string >,
+                      PythonFunction< std::string > > processor_;
+     uint32_t automaton_index_;
 };
 
 #endif // AUTOMATON_GI_H

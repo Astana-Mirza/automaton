@@ -6,7 +6,7 @@
 #include <QMainWindow>
 #include <QGraphicsScene>
 #include <QTimer>
-#include <vector>
+#include <QVector>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -24,18 +24,20 @@ private slots:
      void on_action_open_triggered();
      void on_action_save_triggered();
      void on_action_save_as_triggered();
+     void on_action_add_finite_automaton_triggered();
+     void on_action_remove_triggered();
+     void on_action_add_crypto_automaton_triggered();
 
 private:
      void setup_scene();
      void setup_timer();
 
-     pybind11::scoped_interpreter guard{};
-     Ui::MainWindow *ui;
-     QTimer timer;
+     pybind11::scoped_interpreter guard_{};
+     Ui::MainWindow *ui_;
+     QTimer timer_;
 
-     QGraphicsScene* scene = nullptr;
-     std::vector<AutomatonGI*> automatons;
-     uint32_t next_automaton_index = 0;
+     QGraphicsScene* scene_ = nullptr;
+     QVector<AutomatonGI*> automatons_;
 };
 
 #endif // MAINWINDOW_H
