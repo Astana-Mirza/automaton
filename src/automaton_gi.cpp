@@ -16,7 +16,7 @@ AutomatonGI::AutomatonGI( const std::string& init_state,
 
 AutomatonGI::~AutomatonGI()
 {
-    delete connector;
+     delete connector_;
 }
 
 
@@ -56,12 +56,13 @@ void AutomatonGI::mouseMoveEvent( QGraphicsSceneMouseEvent *event )
 }
 
 
-void AutomatonGI::mousePressEvent( QGraphicsSceneMouseEvent *event )
+void AutomatonGI::mousePressEvent( QGraphicsSceneMouseEvent * )
 {
      setCursor( QCursor( Qt::ClosedHandCursor ) );
 }
 
-void AutomatonGI::mouseReleaseEvent( QGraphicsSceneMouseEvent *event )
+
+void AutomatonGI::mouseReleaseEvent( QGraphicsSceneMouseEvent * )
 {
      setCursor( QCursor( Qt::ArrowCursor ) );
      auto colliding = collidingItems( Qt::IntersectsItemBoundingRect );
@@ -105,37 +106,45 @@ void AutomatonGI::mouseReleaseEvent( QGraphicsSceneMouseEvent *event )
      update();
 }
 
+
 void AutomatonGI::set_output( ElementGI* output )
 {
-    ElementGI::set_output( output );
-    if ( !output )
-    {
-        if ( connector )
-            scene()->removeItem( connector );
-        connector = nullptr;
-    } else
-    {
-        connector = new ConnectorGI( this );
-
-        connector->setPos(
-            scenePos().x() + ( boundingRect().width() / 2 - 15 ) + ( connector->boundingRect().width() / 2 ),
-            scenePos().y()
-        );
-        scene()->addItem(connector);
-    }
-    update();
+     ElementGI::set_output( output );
+     if ( !output )
+     {
+          if ( connector_ )
+          {
+               scene()->removeItem( connector_ );
+          }
+          connector_ = nullptr;
+     }
+     else
+     {
+          connector_ = new ConnectorGI( this );
+          connector_->setPos(
+               scenePos().x() + ( boundingRect().width() / 2 - 15 ) + ( connector_->boundingRect().width() / 2 ),
+               scenePos().y()
+          );
+          scene()->addItem( connector_ );
+     }
+     update();
 }
+
 
 bool AutomatonGI::check_input_colliding( QGraphicsItem* item )
 {
-    InputGI* input_gi = dynamic_cast<InputGI*>( item );
-    if ( !input_gi )
-        return false;
-    if ( input_gi->is_input_set() || input_gi->scenePos().x() > scenePos().x() )
-        return false;
-    input_gi->set_output( this );
-    set_input( input_gi );
-    setPos( item->scenePos().x() + ( item->boundingRect().width() / 4 ) + ( boundingRect().width() / 2 ),
-           item->scenePos().y() );
-    return true;
+     InputGI* input_gi = dynamic_cast<InputGI*>( item );
+     if ( !input_gi )
+     {
+          return false;
+     }
+     if ( input_gi->is_input_set() || input_gi->scenePos().x() > scenePos().x() )
+     {
+          return false;
+     }
+     input_gi->set_output( this );
+     set_input( input_gi );
+     setPos( item->scenePos().x() + ( item->boundingRect().width() / 4 ) + ( boundingRect().width() / 2 ),
+             item->scenePos().y() );
+     return true;
 }

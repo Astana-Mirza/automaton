@@ -10,10 +10,10 @@ public:
      QRectF boundingRect() const;
 
 protected:
-     void paint( QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget );
+     void paint( QPainter *painter, const QStyleOptionGraphicsItem *, QWidget * );
      void mouseMoveEvent( QGraphicsSceneMouseEvent *event );
-     void mousePressEvent( QGraphicsSceneMouseEvent *event );
-     void mouseReleaseEvent( QGraphicsSceneMouseEvent *event );
+     void mousePressEvent( QGraphicsSceneMouseEvent * );
+     void mouseReleaseEvent( QGraphicsSceneMouseEvent * );
 };
 
 #endif // INPUTGI_H

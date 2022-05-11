@@ -28,7 +28,7 @@ MainWindow::MainWindow( QWidget *parent ):
      automatons_[ 1 ]->setPos( automatons_[ 0 ]->scenePos().x() + 120,
                                automatons_[ 0 ]->scenePos().y() );
      input_->setPos( automatons_[ 0 ]->scenePos().x() - 85,
-                               automatons_[ 0 ]->scenePos().y() );
+                     automatons_[ 0 ]->scenePos().y() );
 }
 
 
@@ -36,7 +36,6 @@ MainWindow::~MainWindow()
 {
      delete ui_;
      delete scene_;
-     delete input_;
 }
 
 void MainWindow::setup_scene()

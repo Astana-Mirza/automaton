@@ -23,10 +23,10 @@ public:
      void set_output( ElementGI* output );
      QRectF boundingRect() const;
 protected:
-     void paint( QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget );
+     void paint( QPainter *painter, const QStyleOptionGraphicsItem *, QWidget * );
      void mouseMoveEvent( QGraphicsSceneMouseEvent *event );
-     void mousePressEvent( QGraphicsSceneMouseEvent *event );
-     void mouseReleaseEvent( QGraphicsSceneMouseEvent *event );
+     void mousePressEvent( QGraphicsSceneMouseEvent * );
+     void mouseReleaseEvent( QGraphicsSceneMouseEvent * );
 
      bool check_input_colliding( QGraphicsItem* item );
 
@@ -35,7 +35,7 @@ private:
 //                      PythonFunction< std::string >,
 //                      PythonFunction< std::string > > processor_;
      uint32_t automaton_index_;
-     ConnectorGI* connector = nullptr;
+     ConnectorGI* connector_ = nullptr;
 };
 
 #endif // AUTOMATON_GI_H

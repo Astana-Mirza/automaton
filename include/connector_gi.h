@@ -8,14 +8,14 @@ class AutomatonGI;
 class ConnectorGI : public QGraphicsItem
 {
 public:
-    ConnectorGI( AutomatonGI* result_automaton );
-    ~ConnectorGI();
+    ConnectorGI( AutomatonGI* automaton );
+    ~ConnectorGI() = default;
 
     QRectF boundingRect() const;
 private:
     void paint( QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget );
 
-    AutomatonGI* result_automaton_; // Автомат, из которого получаем промежуточный результат
+    AutomatonGI* automaton_;
 };
 
 #endif // CONNECTOR_GI_H
