@@ -48,7 +48,6 @@ private:
      QString initial_key_;
      uint32_t automaton_index_;
      ConnectorGI* connector_ = nullptr;
-     bool selected_ = false;
 };
 
 #endif // AUTOMATON_GI_H

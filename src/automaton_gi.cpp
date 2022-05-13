@@ -63,10 +63,10 @@ void AutomatonGI::call_modal()
      dialog->show();
 }
 
-#include <iostream>
+
 void AutomatonGI::mouseMoveEvent( QGraphicsSceneMouseEvent *event )
 {
-     if ( selected_ )
+     if ( isSelected() )
      {
           setPos( event->scenePos().x(), event->scenePos().y() );
      }
@@ -78,23 +78,19 @@ void AutomatonGI::mousePressEvent( QGraphicsSceneMouseEvent *event )
      if ( event->button() == Qt::RightButton )
      {
           call_modal();
-     } else if ( event->button() == Qt::LeftButton )
+     }
+     else if ( event->button() == Qt::LeftButton )
      {
-          selected_ = true;
+          setSelected( true );
           setCursor( QCursor( Qt::ClosedHandCursor ) );
      }
 }
 
 
-void AutomatonGI::mouseReleaseEvent( QGraphicsSceneMouseEvent *event )
+void AutomatonGI::mouseReleaseEvent( QGraphicsSceneMouseEvent * )
 {
      setCursor( QCursor( Qt::ArrowCursor ) );
-
-     if ( !selected_ )
-          return;
-
-     selected_ = false;
-
+     setSelected( false );
      auto colliding = collidingItems( Qt::IntersectsItemBoundingRect );
      if ( is_input_set() )
      {
