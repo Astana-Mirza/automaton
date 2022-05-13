@@ -1,7 +1,10 @@
 #include <automaton_gi.h>
-#include <initial_info_dialog.h>
+#include <input_gi.h>
 #include <QCursor>
 #include <QGraphicsScene>
+#include <QPainter>
+#include <QGraphicsSceneMouseEvent>
+#include <QString>
 
 AutomatonGI::AutomatonGI( const std::string& init_state,
                           const std::string& tr_file,
@@ -9,11 +12,12 @@ AutomatonGI::AutomatonGI( const std::string& init_state,
                           const std::string& out_file,
                           const std::string& out_func_name,
                           uint32_t index ):
-//     processor_(init_state, { tr_file, tr_func_name }, { out_file, out_func_name } ),
+     processor_( init_state, { tr_file, tr_func_name }, { out_file, out_func_name } ),
      automaton_index_( index )
 {
-     setFlag(QGraphicsItem::ItemIsSelectable, true);
+     setFlag( QGraphicsItem::ItemIsSelectable, true );
 }
+
 
 AutomatonGI::~AutomatonGI()
 {
@@ -53,13 +57,7 @@ void AutomatonGI::paint( QPainter *painter, const QStyleOptionGraphicsItem *, QW
 
 void AutomatonGI::call_modal()
 {
-     InitialInfoDialog dialog( this, true );
-     dialog.setWindowFlags(
-          Qt::Dialog |
-          Qt::WindowCloseButtonHint |
-          Qt::WindowSystemMenuHint
-     );
-     dialog.exec();
+
 }
 
 
@@ -89,10 +87,10 @@ void AutomatonGI::mousePressEvent( QGraphicsSceneMouseEvent *event )
 void AutomatonGI::mouseReleaseEvent( QGraphicsSceneMouseEvent * )
 {
      setCursor( QCursor( Qt::ArrowCursor ) );
-
      if ( !isSelected() )
+     {
           return;
-
+     }
      setSelected( false );
      auto colliding = collidingItems( Qt::IntersectsItemBoundingRect );
      if ( is_input_set() )
@@ -110,10 +108,12 @@ void AutomatonGI::mouseReleaseEvent( QGraphicsSceneMouseEvent * )
           AutomatonGI* automaton = dynamic_cast<AutomatonGI*>( item );
           if ( !automaton )
           {
-              bool input_colliding = check_input_colliding( item );
-              if (input_colliding)
-                  break;
-              continue;
+               bool input_colliding = check_input_colliding( item );
+               if ( input_colliding )
+               {
+                    break;
+               }
+               continue;
           }
           if ( automaton->scenePos().x() <= scenePos().x() && !automaton->is_output_set() )
           {

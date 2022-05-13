@@ -2,6 +2,7 @@
 #include <input_gi.h>
 #include <QPainter>
 #include <QCursor>
+#include <QGraphicsSceneMouseEvent>
 
 InputGI::InputGI()
 {

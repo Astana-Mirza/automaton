@@ -2,12 +2,9 @@
 #define MAINWINDOW_H
 
 #include <pybind11/embed.h>
-#include <automaton_gi.h>
 #include <input_gi.h>
 #include <QMainWindow>
 #include <QGraphicsScene>
-#include <QTimer>
-#include <QVector>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -33,13 +30,11 @@ private:
      void setup_scene();
      void setup_timer();
 
-     pybind11::scoped_interpreter guard_{};
+     pybind11::scoped_interpreter guard_;
+     size_t automaton_count_;
      Ui::MainWindow *ui_;
-     QTimer timer_;
-
-     QGraphicsScene* scene_ = nullptr;
+     QGraphicsScene* scene_;
      InputGI* input_;
-     QVector<AutomatonGI*> automatons_;
 };
 
 #endif // MAINWINDOW_H

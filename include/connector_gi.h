@@ -12,6 +12,7 @@ public:
     ~ConnectorGI() = default;
 
     QRectF boundingRect() const;
+
 private:
     void paint( QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget );
 

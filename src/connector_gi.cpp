@@ -1,5 +1,6 @@
 #include <automaton_gi.h>
 #include <connector_gi.h>
+#include <QPainter>
 
 ConnectorGI::ConnectorGI( AutomatonGI* automaton ):
      automaton_( automaton )
