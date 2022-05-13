@@ -53,14 +53,13 @@ void AutomatonGI::paint( QPainter *painter, const QStyleOptionGraphicsItem *, QW
 
 void AutomatonGI::call_modal()
 {
-     InitialInfoDialog* dialog = new InitialInfoDialog( this, true );
-     dialog->setWindowFlags(
+     InitialInfoDialog dialog( this, true );
+     dialog.setWindowFlags(
           Qt::Dialog |
           Qt::WindowCloseButtonHint |
           Qt::WindowSystemMenuHint
      );
-     dialog->setAttribute(Qt::WA_DeleteOnClose);
-     dialog->show();
+     dialog.exec();
 }
 
 
