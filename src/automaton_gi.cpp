@@ -90,6 +90,10 @@ void AutomatonGI::mousePressEvent( QGraphicsSceneMouseEvent *event )
 void AutomatonGI::mouseReleaseEvent( QGraphicsSceneMouseEvent * )
 {
      setCursor( QCursor( Qt::ArrowCursor ) );
+
+     if ( !isSelected() )
+          return;
+
      setSelected( false );
      auto colliding = collidingItems( Qt::IntersectsItemBoundingRect );
      if ( is_input_set() )

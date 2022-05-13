@@ -26,9 +26,13 @@ public:
 
      void set_initial_state( const QString& state ) { initial_state_ = state; }
      void set_initial_key( const QString& key ) { initial_key_ = key; }
+     void set_function_path( const QString& path ) { function_file_path_ = path; }
+     void set_function_name( const QString& name ) { function_name_ = name; }
 
      QString get_initial_state() const { return initial_state_; }
      QString get_initial_key() const { return initial_key_; }
+     QString get_function_path() const { return function_file_path_; }
+     QString get_function_name() const { return function_name_; }
 
      uint32_t get_automaton_index() const { return automaton_index_; }
 protected:
@@ -46,6 +50,8 @@ private:
 //                      PythonFunction< std::string > > processor_;
      QString initial_state_;
      QString initial_key_;
+     QString function_file_path_;
+     QString function_name_;
      uint32_t automaton_index_;
      ConnectorGI* connector_ = nullptr;
 };
