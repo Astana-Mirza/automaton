@@ -62,6 +62,7 @@ QMAKE_EXTRA_TARGETS += make_libkam adaptor_prepare bit_adaptor vector_adaptor
 
 SOURCES += \
     src/connector_gi.cpp \
+    src/initial_info_dialog.cpp \
     src/input_gi.cpp \
     src/automaton_gi.cpp \
     src/main.cpp \
@@ -71,6 +72,7 @@ HEADERS += \
     include/automaton_gi.h \
     include/connector_gi.h \
     include/element_gi.h \
+    include/initial_info_dialog.h \
     include/input_gi.h \
     include/mainwindow.h \
     include/python_function.h
