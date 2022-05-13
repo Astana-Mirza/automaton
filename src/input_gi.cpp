@@ -19,9 +19,9 @@ void InputGI::paint( QPainter *painter, const QStyleOptionGraphicsItem *, QWidge
 {
      QPolygon polygon;
      polygon << QPoint( -25, -25 ) << QPoint( -25, 25 ) << QPoint( 25, 0 );
-	painter->setPen( Qt::black );
-	painter->setBrush( Qt::red );
-	painter->drawPolygon( polygon );
+     painter->setPen( Qt::black );
+     painter->setBrush( Qt::red );
+     painter->drawPolygon( polygon );
 }
 
 

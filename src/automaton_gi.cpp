@@ -1,4 +1,5 @@
 #include <automaton_gi.h>
+#include <initial_info_dialog.h>
 #include <QCursor>
 #include <QGraphicsScene>
 
@@ -11,7 +12,7 @@ AutomatonGI::AutomatonGI( const std::string& init_state,
 //     processor_(init_state, { tr_file, tr_func_name }, { out_file, out_func_name } ),
      automaton_index_( index )
 {
-
+     setFlag(QGraphicsItem::ItemIsSelectable, true);
 }
 
 AutomatonGI::~AutomatonGI()
@@ -50,21 +51,50 @@ void AutomatonGI::paint( QPainter *painter, const QStyleOptionGraphicsItem *, QW
 }
 
 
+void AutomatonGI::call_modal()
+{
+     InitialInfoDialog* dialog = new InitialInfoDialog( this, true );
+     dialog->setWindowFlags(
+          Qt::Dialog |
+          Qt::WindowCloseButtonHint |
+          Qt::WindowSystemMenuHint
+     );
+     dialog->setAttribute(Qt::WA_DeleteOnClose);
+     dialog->show();
+}
+
+#include <iostream>
 void AutomatonGI::mouseMoveEvent( QGraphicsSceneMouseEvent *event )
 {
-     setPos( event->scenePos().x(), event->scenePos().y() );
+     if ( selected_ )
+     {
+          setPos( event->scenePos().x(), event->scenePos().y() );
+     }
 }
 
 
-void AutomatonGI::mousePressEvent( QGraphicsSceneMouseEvent * )
+void AutomatonGI::mousePressEvent( QGraphicsSceneMouseEvent *event )
 {
-     setCursor( QCursor( Qt::ClosedHandCursor ) );
+     if ( event->button() == Qt::RightButton )
+     {
+          call_modal();
+     } else if ( event->button() == Qt::LeftButton )
+     {
+          selected_ = true;
+          setCursor( QCursor( Qt::ClosedHandCursor ) );
+     }
 }
 
 
-void AutomatonGI::mouseReleaseEvent( QGraphicsSceneMouseEvent * )
+void AutomatonGI::mouseReleaseEvent( QGraphicsSceneMouseEvent *event )
 {
      setCursor( QCursor( Qt::ArrowCursor ) );
+
+     if ( !selected_ )
+          return;
+
+     selected_ = false;
+
      auto colliding = collidingItems( Qt::IntersectsItemBoundingRect );
      if ( is_input_set() )
      {

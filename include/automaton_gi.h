@@ -8,6 +8,7 @@
 #include <connector_gi.h>
 #include <QPainter>
 #include <QGraphicsSceneMouseEvent>
+#include <QString>
 
 class AutomatonGI: public ElementGI
 {
@@ -22,20 +23,32 @@ public:
 
      void set_output( ElementGI* output );
      QRectF boundingRect() const;
+
+     void set_initial_state( const QString& state ) { initial_state_ = state; }
+     void set_initial_key( const QString& key ) { initial_key_ = key; }
+
+     QString get_initial_state() const { return initial_state_; }
+     QString get_initial_key() const { return initial_key_; }
+
+     uint32_t get_automaton_index() const { return automaton_index_; }
 protected:
      void paint( QPainter *painter, const QStyleOptionGraphicsItem *, QWidget * );
      void mouseMoveEvent( QGraphicsSceneMouseEvent *event );
-     void mousePressEvent( QGraphicsSceneMouseEvent * );
-     void mouseReleaseEvent( QGraphicsSceneMouseEvent * );
+     void mousePressEvent( QGraphicsSceneMouseEvent *event );
+     void mouseReleaseEvent( QGraphicsSceneMouseEvent *event );
 
      bool check_input_colliding( QGraphicsItem* item );
 
+     void call_modal();
 private:
 //     FiniteAutomaton< std::string, std::string, std::string,
 //                      PythonFunction< std::string >,
 //                      PythonFunction< std::string > > processor_;
+     QString initial_state_;
+     QString initial_key_;
      uint32_t automaton_index_;
      ConnectorGI* connector_ = nullptr;
+     bool selected_ = false;
 };
 
 #endif // AUTOMATON_GI_H
