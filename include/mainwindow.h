@@ -19,12 +19,10 @@ public:
      ~MainWindow();
 
 private slots:
-     void on_action_open_triggered();
-     void on_action_save_triggered();
-     void on_action_save_as_triggered();
      void on_action_add_finite_automaton_triggered();
-     void on_action_remove_triggered();
      void on_action_add_crypto_automaton_triggered();
+     void on_action_run_step_triggered();
+     void on_action_run_all_triggered();
 
 private:
      void setup_scene();

@@ -41,24 +41,6 @@ void MainWindow::setup_scene()
      ui_->graphicsView->show();
 }
 
-
-void MainWindow::on_action_open_triggered()
-{
-
-}
-
-
-void MainWindow::on_action_save_triggered()
-{
-
-}
-
-
-void MainWindow::on_action_save_as_triggered()
-{
-
-}
-
 // TODO: try..catch block over construction of automaton
 void MainWindow::on_action_add_finite_automaton_triggered()
 {
@@ -116,8 +98,12 @@ void MainWindow::on_action_add_crypto_automaton_triggered()
      }
 }
 
+void MainWindow::on_action_run_step_triggered()
+{
 
-void MainWindow::on_action_remove_triggered()
+}
+
+void MainWindow::on_action_run_all_triggered()
 {
 
 }
