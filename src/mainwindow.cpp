@@ -1,6 +1,7 @@
 #include <mainwindow.h>
 #include <ui_mainwindow.h>
-#include <automaton_gi.h>
+#include <finite_automaton_gi.h>
+#include <crypto_automaton_gi.h>
 #include <initial_info_dialog.h>
 
 namespace py = pybind11;
@@ -36,7 +37,6 @@ void MainWindow::setup_scene()
      ui_->graphicsView->setMinimumHeight( 200 );
      ui_->graphicsView->setMinimumWidth( 200 );
      ui_->graphicsView->setScene( scene_ );
-     // ui_->graphicsView->setDragMode( QGraphicsView::ScrollHandDrag );
      ui_->graphicsView->setViewportUpdateMode( QGraphicsView::FullViewportUpdate );
      ui_->graphicsView->show();
 }
@@ -67,10 +67,10 @@ void MainWindow::on_action_add_finite_automaton_triggered()
      {
           return;
      }
-     if ( /*!dialog.get_tr_file_name().isEmpty() && !dialog.get_tr_func_name().isEmpty()
-          && !dialog.get_out_file_name().isEmpty() && !dialog.get_out_func_name().isEmpty()*/ true )
+     if ( !dialog.get_tr_file_name().isEmpty() && !dialog.get_tr_func_name().isEmpty()
+          && !dialog.get_out_file_name().isEmpty() && !dialog.get_out_func_name().isEmpty() )
      {
-          AutomatonGI *automaton = new AutomatonGI(
+          FiniteAutomatonGI *automaton = new FiniteAutomatonGI(
                dialog.get_initial_state().toStdString(),
                dialog.get_tr_file_name().toStdString(),
                dialog.get_tr_func_name().toStdString(),
@@ -98,7 +98,17 @@ void MainWindow::on_action_add_crypto_automaton_triggered()
      if ( !dialog.get_tr_file_name().isEmpty() && !dialog.get_tr_func_name().isEmpty()
           && !dialog.get_out_file_name().isEmpty() && !dialog.get_out_func_name().isEmpty() )
      {
-          // make crypto automaton
+          CryptoAutomatonGI *automaton = new CryptoAutomatonGI(
+               dialog.get_initial_state().toStdString(),
+               dialog.get_initial_key().toStdString(),
+               dialog.get_tr_file_name().toStdString(),
+               dialog.get_tr_func_name().toStdString(),
+               dialog.get_out_file_name().toStdString(),
+               dialog.get_out_func_name().toStdString(),
+               automaton_count_
+          );
+          automaton_count_++;
+          scene_->addItem( automaton );
      }
      else
      {

@@ -6,14 +6,8 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QString>
 
-AutomatonGI::AutomatonGI( const std::string& init_state,
-                          const std::string& tr_file,
-                          const std::string& tr_func_name,
-                          const std::string& out_file,
-                          const std::string& out_func_name,
-                          uint32_t index ):
-     processor_( init_state, { tr_file, tr_func_name }, { out_file, out_func_name } ),
-     automaton_index_( index )
+AutomatonGI::AutomatonGI( size_t index ):
+     automaton_index_{ index }, connector_{ nullptr }
 {
      setFlag( QGraphicsItem::ItemIsSelectable, true );
 }
@@ -43,21 +37,15 @@ void AutomatonGI::paint( QPainter *painter, const QStyleOptionGraphicsItem *, QW
      QFont in_out_font = painter->font();
      in_out_font.setPixelSize( 10 );
      painter->setFont( in_out_font );
-     painter->drawText( QRect{-50, -15, 13, 15},
+     painter->drawText( QRect{ -50, -15, 13, 15 },
                         Qt::AlignRight | Qt::AlignVCenter, "in" );
-     painter->drawText( QRect{38, -15, 15, 15},
+     painter->drawText( QRect{ 38, -15, 15, 15 },
                         Qt::AlignLeft | Qt::AlignVCenter, "out" );
 
      painter->setBrush( QBrush( Qt::NoBrush ) );
      painter->drawPolygon( polygon );
      painter->drawLine( !is_input_set() ? -60 : -45, 0, -35, 0 );
      painter->drawLine( !is_output_set() ? 60 :  45, 0,  35, 0 );
-}
-
-
-void AutomatonGI::call_modal()
-{
-
 }
 
 
@@ -74,7 +62,7 @@ void AutomatonGI::mousePressEvent( QGraphicsSceneMouseEvent *event )
 {
      if ( event->button() == Qt::RightButton )
      {
-          call_modal();
+          show_info();
      }
      else if ( event->button() == Qt::LeftButton )
      {

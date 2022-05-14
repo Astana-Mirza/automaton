@@ -61,6 +61,8 @@ QMAKE_EXTRA_TARGETS += make_libkam adaptor_prepare bit_adaptor vector_adaptor
 
 
 SOURCES += \
+    src/crypto_automaton_gi.cpp \
+    src/finite_automaton_gi.cpp \
     src/connector_gi.cpp \
     src/initial_info_dialog.cpp \
     src/input_gi.cpp \
@@ -72,6 +74,8 @@ HEADERS += \
     include/automaton_gi.h \
     include/connector_gi.h \
     include/element_gi.h \
+    include/finite_automaton_gi.h \
+    include/crypto_automaton_gi.h \
     include/initial_info_dialog.h \
     include/input_gi.h \
     include/mainwindow.h \
