@@ -1,5 +1,9 @@
 #include <crypto_automaton_gi.h>
 #include <QPainter>
+#include <QDialog>
+#include <QVBoxLayout>
+#include <QLabel>
+#include <QTextEdit>
 
 CryptoAutomatonGI::CryptoAutomatonGI( const std::string& init_state,
                                       const std::string& init_key,
@@ -14,8 +18,36 @@ CryptoAutomatonGI::CryptoAutomatonGI( const std::string& init_state,
 
 void CryptoAutomatonGI::show_info() const
 {
+     QDialog* info_dialog = new QDialog();
+     QVBoxLayout* layout = new QVBoxLayout();
+     QLabel* state_label = new QLabel( "Automaton current state:", info_dialog );
+     QTextEdit* state_info = new QTextEdit( info_dialog );
+     QLabel* key_label = new QLabel( "Crypto automaton key:", info_dialog );
+     QTextEdit* key_info = new QTextEdit( info_dialog );
 
+     state_info->setText( QString::fromStdString( processor_.get_state() ) );
+     state_info->setLineWrapMode( QTextEdit::NoWrap );
+     state_info->setFixedHeight( 45 );
+     state_info->setReadOnly( true );
+
+     key_info->setText( QString::fromStdString( processor_.get_key() ) );
+     key_info->setLineWrapMode( QTextEdit::NoWrap );
+     key_info->setFixedHeight( 45 );
+     key_info->setReadOnly( true );
+
+     layout->setAlignment( Qt::AlignTop );
+     layout->addWidget( state_label );
+     layout->addWidget( state_info );
+     layout->addWidget( key_label );
+     layout->addWidget( key_info );
+
+     info_dialog->setWindowTitle( "Crypto automaton info" );
+     info_dialog->setLayout( layout );
+     info_dialog->setMinimumSize( 320, 140 );
+     info_dialog->setAttribute(Qt::WA_DeleteOnClose);
+     info_dialog->show();
 }
+
 
 void CryptoAutomatonGI::paint( QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget )
 {
