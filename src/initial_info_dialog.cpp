@@ -17,8 +17,8 @@ InitialInfoDialog::InitialInfoDialog( size_t automaton_num, bool is_crypto )
      QVBoxLayout *layout = new QVBoxLayout( this );
      set_title( automaton_num, layout );
      set_init( layout, is_crypto );
-     set_script_selector( layout, "Transition Function Name:", tr_file_name_, tr_func_name_ );
-     set_script_selector( layout, "Output Function Name:", out_file_name_, out_func_name_ );
+     set_script_selector( layout, "Transition Function %0:", tr_file_name_, tr_func_name_ );
+     set_script_selector( layout, "Output Function %0:", out_file_name_, out_func_name_ );
      QDialogButtonBox* buttonBox = new QDialogButtonBox( QDialogButtonBox::Ok );
      connect( buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept );
      layout->addWidget( buttonBox );
@@ -69,6 +69,9 @@ void InitialInfoDialog::set_init( QVBoxLayout *layout, bool is_crypto )
 void InitialInfoDialog::set_script_selector( QVBoxLayout *layout, const QString& text,
                                         QString& filename, QString& func_name )
 {
+     QLabel* file_select_label = new QLabel( text.arg( "File" ) );
+     layout->addWidget( file_select_label );
+
      QHBoxLayout* file_select_layout = new QHBoxLayout;
      layout->addLayout( file_select_layout );
 
@@ -85,7 +88,7 @@ void InitialInfoDialog::set_script_selector( QVBoxLayout *layout, const QString&
      );
      file_select_layout->addWidget( filename_label );
 
-     QLabel* function_name_label = new QLabel( text );
+     QLabel* function_name_label = new QLabel( text.arg( "Name" ) );
      layout->addWidget( function_name_label );
 
      QLineEdit *function_name_input = new QLineEdit;
