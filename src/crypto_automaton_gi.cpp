@@ -41,7 +41,7 @@ void CryptoAutomatonGI::show_info() const
      layout->addWidget( key_label );
      layout->addWidget( key_info );
 
-     info_dialog->setWindowTitle( "Crypto automaton info" );
+     info_dialog->setWindowTitle( "Crypto automaton " + QString::number( get_automaton_index() ) + " info" );
      info_dialog->setLayout( layout );
      info_dialog->setMinimumSize( 320, 140 );
      info_dialog->setAttribute(Qt::WA_DeleteOnClose);
