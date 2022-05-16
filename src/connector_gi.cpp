@@ -23,7 +23,7 @@ void ConnectorGI::paint( QPainter *painter, const QStyleOptionGraphicsItem *, QW
 {
      painter->setPen( Qt::black );
      painter->setBrush( Qt::blue );
-     painter->drawEllipse( -15, -15, 30, 30 );
+     painter->drawEllipse( -15, -15, 25, 25 );
 }
 
 void ConnectorGI::setup_output()
@@ -43,7 +43,7 @@ void ConnectorGI::setup_output()
 }
 
 
-void ConnectorGI::hoverEnterEvent( QGraphicsSceneHoverEvent *event )
+void ConnectorGI::hoverEnterEvent( QGraphicsSceneHoverEvent * )
 {
      if ( output_info_ )
           return;
@@ -51,7 +51,7 @@ void ConnectorGI::hoverEnterEvent( QGraphicsSceneHoverEvent *event )
 }
 
 
-void ConnectorGI::hoverLeaveEvent( QGraphicsSceneHoverEvent *event )
+void ConnectorGI::hoverLeaveEvent( QGraphicsSceneHoverEvent * )
 {
      if ( !output_fixed_ && output_info_ && scene() )
      {
@@ -62,7 +62,7 @@ void ConnectorGI::hoverLeaveEvent( QGraphicsSceneHoverEvent *event )
 }
 
 
-void ConnectorGI::mousePressEvent( QGraphicsSceneMouseEvent *event )
+void ConnectorGI::mousePressEvent( QGraphicsSceneMouseEvent * )
 {
      output_fixed_ = !output_fixed_;
 }

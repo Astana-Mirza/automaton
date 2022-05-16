@@ -14,6 +14,9 @@ protected:
      void mouseMoveEvent( QGraphicsSceneMouseEvent *event );
      void mousePressEvent( QGraphicsSceneMouseEvent * );
      void mouseReleaseEvent( QGraphicsSceneMouseEvent * );
+
+private:
+     QStringList data_;
 };
 
 #endif // INPUTGI_H

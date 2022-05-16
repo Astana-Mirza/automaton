@@ -2,6 +2,10 @@
 #include <input_gi.h>
 #include <QPainter>
 #include <QCursor>
+#include <QDialog>
+#include <QVBoxLayout>
+#include <QTextEdit>
+#include <QDialogButtonBox>
 #include <QGraphicsSceneMouseEvent>
 
 InputGI::InputGI()
@@ -32,9 +36,30 @@ void InputGI::mouseMoveEvent( QGraphicsSceneMouseEvent *event )
 }
 
 
-void InputGI::mousePressEvent( QGraphicsSceneMouseEvent * )
+void InputGI::mousePressEvent( QGraphicsSceneMouseEvent *event )
 {
-     setCursor( QCursor( Qt::ClosedHandCursor ) );
+     if ( event->button() == Qt::RightButton )
+     {
+          QDialog dialog;
+          QVBoxLayout *layout = new QVBoxLayout( &dialog );
+          QTextEdit *edit = new QTextEdit;
+          QDialogButtonBox* buttonBox = new QDialogButtonBox( QDialogButtonBox::Ok | QDialogButtonBox::Cancel );
+          dialog.connect( buttonBox, &QDialogButtonBox::accepted, &dialog, [ this, edit, &dialog ]() {
+               data_ = edit->toPlainText().split("\n");
+               dialog.done( 0 );
+          } );
+          dialog.connect( buttonBox, &QDialogButtonBox::rejected, &dialog, &QDialog::reject );
+          edit->setPlaceholderText( "Input data" );
+          edit->setText( data_.join( "\n" ) );
+          dialog.setWindowTitle( "Input" );
+          layout->addWidget( edit );
+          layout->addWidget( buttonBox );
+          dialog.exec();
+     }
+     else
+     {
+          setCursor( QCursor( Qt::ClosedHandCursor ) );
+     }
 }
 
 
