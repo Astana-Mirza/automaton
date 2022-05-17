@@ -3,7 +3,10 @@
 #include <finite_automaton_gi.h>
 #include <crypto_automaton_gi.h>
 #include <initial_info_dialog.h>
+
 #include <QMessageBox>
+#include <QTextEdit>
+#include <QDialogButtonBox>
 
 namespace py = pybind11;
 
@@ -142,12 +145,39 @@ void MainWindow::on_action_run_step_triggered()
 
 void MainWindow::on_action_run_all_triggered()
 {
+     QStringList result;
      try
      {
-          // loop
+          while ( !input_->empty() )
+          {
+               AutomatonGI *automaton = dynamic_cast< AutomatonGI * >( input_->get_output() );
+               std::string str{ ( input_->popData() ).toStdString() };
+               while ( automaton )
+               {
+                    str = automaton->step( str );
+                    automaton = dynamic_cast< AutomatonGI * >( automaton->get_output() );
+               }
+               result.push_back( QString::fromStdString( str ) );
+          }
      }
      catch ( std::exception& e )
      {
           error_window( e.what() );
+          return;
      }
+     QDialog dialog;
+     QVBoxLayout *layout = new QVBoxLayout;
+     QTextEdit *text = new QTextEdit;
+     QDialogButtonBox* buttonBox = new QDialogButtonBox( QDialogButtonBox::Ok );
+
+     dialog.setWindowTitle( "Automaton output" );
+     dialog.connect( buttonBox, &QDialogButtonBox::accepted, &dialog, &QDialog::accept );
+
+     text->setText( result.join( "\n" ) );
+     text->setReadOnly( true );
+
+     layout->addWidget( text );
+     layout->addWidget( buttonBox );
+     dialog.setLayout( layout );
+     dialog.exec();
 }
