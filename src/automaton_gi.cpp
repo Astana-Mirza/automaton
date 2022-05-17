@@ -12,7 +12,7 @@ AutomatonGI::AutomatonGI( QGraphicsScene *scene, size_t index ):
      setFlag( QGraphicsItem::ItemIsSelectable, true );
      connector_ = new ConnectorGI( this );
      connector_->setPos(
-          scenePos().x() + ( boundingRect().width() / 2 - 15 ) + ( connector_->boundingRect().width() / 2 ),
+          scenePos().x() + ( boundingRect().width() / 2 )/* + ( connector_->boundingRect().width() / 2 )*/,
           scenePos().y()
      );
 }
@@ -20,7 +20,7 @@ AutomatonGI::AutomatonGI( QGraphicsScene *scene, size_t index ):
 
 QRectF AutomatonGI::boundingRect() const
 {
-     return QRectF( -60, -35, 120, 70 );
+     return QRectF( -65, -35, 130, 70 );
 }
 
 
@@ -43,8 +43,8 @@ void AutomatonGI::paint( QPainter *painter, const QStyleOptionGraphicsItem *, QW
 
      painter->setBrush( QBrush( Qt::NoBrush ) );
      painter->drawPolygon( polygon );
-     painter->drawLine( !is_input_set() ? -60 : -45, 0, -35, 0 );
-     painter->drawLine( !is_output_set() ? 60 :  45, 0,  35, 0 );
+     painter->drawLine( !is_input_set() ? -65 : -57, 0, -35, 0 );
+     painter->drawLine( 57, 0, 35, 0 );
 }
 
 
@@ -143,7 +143,7 @@ bool AutomatonGI::check_input_colliding( QGraphicsItem* item )
      }
      input_gi->set_output( this );
      set_input( input_gi );
-     setPos( item->scenePos().x() + ( item->boundingRect().width() / 4 ) + ( boundingRect().width() / 2 ),
+     setPos( item->scenePos().x() + ( item->boundingRect().width() / 2 ) + ( boundingRect().width() / 2 - 8 ),
              item->scenePos().y() );
      return true;
 }

@@ -60,20 +60,32 @@
    <property name="text">
     <string>Finite automaton</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
   </action>
   <action name="action_add_crypto_automaton">
    <property name="text">
     <string>Crypto automaton</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+N</string>
    </property>
   </action>
   <action name="action_run_step">
    <property name="text">
     <string>One step</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
+   </property>
   </action>
   <action name="action_run_all">
    <property name="text">
     <string>All</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+R</string>
    </property>
   </action>
  </widget>

@@ -23,7 +23,7 @@ void InputGI::paint( QPainter *painter, const QStyleOptionGraphicsItem *, QWidge
      QPolygon polygon;
      polygon << QPoint( -25, -25 ) << QPoint( -25, 25 ) << QPoint( 25, 0 );
      painter->setPen( Qt::black );
-     painter->setBrush( Qt::red );
+     painter->setBrush( QColor( 126, 126, 126 ) );
      painter->drawPolygon( polygon );
 }
 
@@ -99,7 +99,7 @@ void InputGI::mouseReleaseEvent( QGraphicsSceneMouseEvent * )
           if ( automaton->scenePos().x() >= scenePos().x() && !automaton->is_input_set() )
           {
                automaton->set_input( this );
-               setPos( automaton->scenePos().x() - ( boundingRect().width() / 4 ) - ( automaton->boundingRect().width() / 2 ),
+               setPos( automaton->scenePos().x() - ( boundingRect().width() / 2 ) - ( automaton->boundingRect().width() / 2 - 8 ),
                        automaton->scenePos().y() );
                set_output( automaton );
                break;

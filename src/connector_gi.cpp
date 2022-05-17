@@ -24,15 +24,15 @@ void ConnectorGI::updateLabel( const QString& new_data )
 
 QRectF ConnectorGI::boundingRect() const
 {
-     return QRectF( -15, -15, 30, 30 );
+     return QRectF( -8, -8, 16, 16 );
 }
 
 
 void ConnectorGI::paint( QPainter *painter, const QStyleOptionGraphicsItem *, QWidget * )
 {
      painter->setPen( Qt::black );
-     painter->setBrush( Qt::blue );
-     painter->drawEllipse( -15, -15, 25, 25 );
+     painter->setBrush( QColor( 204, 204, 204 ));
+     painter->drawEllipse( -8, -8, 16, 16  );
 }
 
 
