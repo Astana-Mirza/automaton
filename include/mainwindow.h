@@ -17,6 +17,7 @@ class MainWindow : public QMainWindow
 public:
      MainWindow( QWidget *parent = nullptr );
      ~MainWindow();
+     void error_window( const QString& info );
 
 private slots:
      void on_action_add_finite_automaton_triggered();

@@ -3,6 +3,7 @@
 #include <finite_automaton_gi.h>
 #include <crypto_automaton_gi.h>
 #include <initial_info_dialog.h>
+#include <QMessageBox>
 
 namespace py = pybind11;
 
@@ -28,6 +29,13 @@ MainWindow::~MainWindow()
 }
 
 
+void MainWindow::error_window( const QString& info )
+{
+     QMessageBox window;
+     window.critical( this, "Error", info, QMessageBox::Ok, QMessageBox::Ok );
+}
+
+
 void MainWindow::setup_scene()
 {
      scene_ = new QGraphicsScene( this );
@@ -40,7 +48,7 @@ void MainWindow::setup_scene()
      ui_->graphicsView->show();
 }
 
-// TODO: try..catch block over construction of automaton
+
 void MainWindow::on_action_add_finite_automaton_triggered()
 {
      InitialInfoDialog dialog( automaton_count_ );
@@ -51,19 +59,26 @@ void MainWindow::on_action_add_finite_automaton_triggered()
      if ( !dialog.get_tr_file_name().isEmpty() && !dialog.get_tr_func_name().isEmpty()
           && !dialog.get_out_file_name().isEmpty() && !dialog.get_out_func_name().isEmpty() )
      {
-          new FiniteAutomatonGI( scene_,
-               dialog.get_initial_state().toStdString(),
-               dialog.get_tr_file_name().toStdString(),
-               dialog.get_tr_func_name().toStdString(),
-               dialog.get_out_file_name().toStdString(),
-               dialog.get_out_func_name().toStdString(),
-               automaton_count_
-          );
-          automaton_count_++;
+          try
+          {
+               new FiniteAutomatonGI( scene_,
+                    dialog.get_initial_state().toStdString(),
+                    dialog.get_tr_file_name().toStdString(),
+                    dialog.get_tr_func_name().toStdString(),
+                    dialog.get_out_file_name().toStdString(),
+                    dialog.get_out_func_name().toStdString(),
+                    automaton_count_
+               );
+               automaton_count_++;
+          }
+          catch( std::exception& e )
+          {
+               error_window( e.what() );
+          }
      }
      else
      {
-          // error message
+          error_window( "To create an automaton, please set output and transform functions" );
      }
 }
 
@@ -78,20 +93,27 @@ void MainWindow::on_action_add_crypto_automaton_triggered()
      if ( !dialog.get_tr_file_name().isEmpty() && !dialog.get_tr_func_name().isEmpty()
           && !dialog.get_out_file_name().isEmpty() && !dialog.get_out_func_name().isEmpty() )
      {
-          new CryptoAutomatonGI( scene_,
-               dialog.get_initial_state().toStdString(),
-               dialog.get_initial_key().toStdString(),
-               dialog.get_tr_file_name().toStdString(),
-               dialog.get_tr_func_name().toStdString(),
-               dialog.get_out_file_name().toStdString(),
-               dialog.get_out_func_name().toStdString(),
-               automaton_count_
-          );
-          automaton_count_++;
+          try
+          {
+               new CryptoAutomatonGI( scene_,
+                    dialog.get_initial_state().toStdString(),
+                    dialog.get_initial_key().toStdString(),
+                    dialog.get_tr_file_name().toStdString(),
+                    dialog.get_tr_func_name().toStdString(),
+                    dialog.get_out_file_name().toStdString(),
+                    dialog.get_out_func_name().toStdString(),
+                    automaton_count_
+               );
+               automaton_count_++;
+          }
+          catch( std::exception& e )
+          {
+               error_window( e.what() );
+          }
      }
      else
      {
-          // error message
+          error_window( "To create an automaton, please set output and transform functions" );
      }
 }
 
@@ -102,17 +124,30 @@ void MainWindow::on_action_run_step_triggered()
      {
           AutomatonGI *automaton = dynamic_cast< AutomatonGI * >( input_->get_output() );
           std::string str{ ( input_->popData() ).toStdString() };
-          while ( automaton )
+          try
           {
-               str = automaton->step( str );
-               automaton = dynamic_cast< AutomatonGI * >( automaton->get_output() );
+               while ( automaton )
+               {
+                    str = automaton->step( str );
+                    automaton = dynamic_cast< AutomatonGI * >( automaton->get_output() );
+               }
           }
-
+          catch ( std::exception& e )
+          {
+               error_window( e.what() );
+          }
      }
 }
 
 
 void MainWindow::on_action_run_all_triggered()
 {
-
+     try
+     {
+          // loop
+     }
+     catch ( std::exception& e )
+     {
+          error_window( e.what() );
+     }
 }
