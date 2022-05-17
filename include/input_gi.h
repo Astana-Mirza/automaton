@@ -6,8 +6,10 @@
 class InputGI : public ElementGI
 {
 public:
-     InputGI();
+     InputGI( QGraphicsScene *scene );
      QRectF boundingRect() const;
+     bool empty() const;
+     QString popData();
 
 protected:
      void paint( QPainter *painter, const QStyleOptionGraphicsItem *, QWidget * );

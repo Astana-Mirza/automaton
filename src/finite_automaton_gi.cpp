@@ -4,14 +4,23 @@
 #include <QLabel>
 #include <QTextEdit>
 
-FiniteAutomatonGI::FiniteAutomatonGI( const std::string& init_state,
+FiniteAutomatonGI::FiniteAutomatonGI( QGraphicsScene *scene,
+                                      const std::string& init_state,
                                       const std::string& tr_file,
                                       const std::string& tr_func_name,
                                       const std::string& out_file,
                                       const std::string& out_func_name,
                                       size_t index ) :
-     AutomatonGI( index ),
+     AutomatonGI( scene, index ),
      processor_( init_state, { tr_file, tr_func_name }, { out_file, out_func_name } ) {}
+
+
+std::string FiniteAutomatonGI::step( const std::string& data )
+{
+     std::string out{ processor_.step( data ) };
+     connector_->updateLabel( QString::fromStdString( out ) );
+     return out;
+}
 
 
 void FiniteAutomatonGI::show_info() const

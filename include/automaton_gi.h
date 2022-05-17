@@ -8,12 +8,15 @@
 class AutomatonGI: public ElementGI
 {
 public:
-     AutomatonGI( size_t index = 0 );
-     ~AutomatonGI();
+     AutomatonGI( QGraphicsScene *scene, size_t index = 0 );
 
      void set_output( ElementGI* output );
      QRectF boundingRect() const;
-     uint32_t get_automaton_index() const { return automaton_index_; }
+
+     size_t get_automaton_index() const { return automaton_index_; }
+     ConnectorGI *get_connector() const { return connector_; }
+
+     virtual std::string step( const std::string& data ) = 0;
 
 protected:
      size_t automaton_index_;

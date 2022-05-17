@@ -10,12 +10,14 @@ public:
      using automaton_type = FiniteAutomaton< std::string, std::string, std::string,
                                              PythonFunction< std::string >,
                                              PythonFunction< std::string > >;
-     explicit FiniteAutomatonGI( const std::string& init_state,
+     explicit FiniteAutomatonGI( QGraphicsScene *scene,
+                           const std::string& init_state,
                            const std::string& tr_file,
                            const std::string& tr_func_name,
                            const std::string& out_file,
                            const std::string& out_func_name,
                            size_t index );
+     std::string step( const std::string& data );
 
 private:
      automaton_type processor_;

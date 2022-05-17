@@ -16,8 +16,7 @@ MainWindow::MainWindow( QWidget *parent ):
           sys.path.append('adaptors')
      )" );
      setup_scene();
-     input_ = new InputGI;
-     scene_->addItem( input_ );
+     input_ = new InputGI( scene_ );
      input_->setPos( 200, 200 );
 }
 
@@ -52,7 +51,7 @@ void MainWindow::on_action_add_finite_automaton_triggered()
      if ( !dialog.get_tr_file_name().isEmpty() && !dialog.get_tr_func_name().isEmpty()
           && !dialog.get_out_file_name().isEmpty() && !dialog.get_out_func_name().isEmpty() )
      {
-          FiniteAutomatonGI *automaton = new FiniteAutomatonGI(
+          new FiniteAutomatonGI( scene_,
                dialog.get_initial_state().toStdString(),
                dialog.get_tr_file_name().toStdString(),
                dialog.get_tr_func_name().toStdString(),
@@ -61,7 +60,6 @@ void MainWindow::on_action_add_finite_automaton_triggered()
                automaton_count_
           );
           automaton_count_++;
-          scene_->addItem( automaton );
      }
      else
      {
@@ -80,7 +78,7 @@ void MainWindow::on_action_add_crypto_automaton_triggered()
      if ( !dialog.get_tr_file_name().isEmpty() && !dialog.get_tr_func_name().isEmpty()
           && !dialog.get_out_file_name().isEmpty() && !dialog.get_out_func_name().isEmpty() )
      {
-          CryptoAutomatonGI *automaton = new CryptoAutomatonGI(
+          new CryptoAutomatonGI( scene_,
                dialog.get_initial_state().toStdString(),
                dialog.get_initial_key().toStdString(),
                dialog.get_tr_file_name().toStdString(),
@@ -90,7 +88,6 @@ void MainWindow::on_action_add_crypto_automaton_triggered()
                automaton_count_
           );
           automaton_count_++;
-          scene_->addItem( automaton );
      }
      else
      {
@@ -98,10 +95,22 @@ void MainWindow::on_action_add_crypto_automaton_triggered()
      }
 }
 
+
 void MainWindow::on_action_run_step_triggered()
 {
+     if ( !input_->empty() )
+     {
+          AutomatonGI *automaton = dynamic_cast< AutomatonGI * >( input_->get_output() );
+          std::string str{ ( input_->popData() ).toStdString() };
+          while ( automaton )
+          {
+               str = automaton->step( str );
+               automaton = dynamic_cast< AutomatonGI * >( automaton->get_output() );
+          }
 
+     }
 }
+
 
 void MainWindow::on_action_run_all_triggered()
 {

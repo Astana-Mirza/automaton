@@ -10,7 +10,6 @@ class InitialInfoDialog: public QDialog
 {
 public:
      InitialInfoDialog( size_t automaton_num, bool is_crypto = false );
-     ~InitialInfoDialog() = default;
 
      const QString& get_initial_state() const { return initial_state_; }
      const QString& get_initial_key()   const { return initial_key_;   }

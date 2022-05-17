@@ -7,9 +7,18 @@
 #include <QLabel>
 
 ConnectorGI::ConnectorGI( AutomatonGI* automaton ):
-     automaton_( automaton )
+     automaton_{ automaton }, output_info_{ nullptr },
+     info_label_{ nullptr }, output_fixed_{ false }
 {
      setAcceptHoverEvents(true);
+     setParentItem( automaton_ );
+     setup_output();
+}
+
+
+void ConnectorGI::updateLabel( const QString& new_data )
+{
+     info_label_->setText( new_data );
 }
 
 
@@ -26,38 +35,36 @@ void ConnectorGI::paint( QPainter *painter, const QStyleOptionGraphicsItem *, QW
      painter->drawEllipse( -15, -15, 25, 25 );
 }
 
+
 void ConnectorGI::setup_output()
 {
      QGroupBox* gb = new QGroupBox( "Output:" );
      gb->setFixedWidth( 200 );
      QVBoxLayout* layout = new QVBoxLayout();
-     QLabel* info = new QLabel( gb );
-     info->setText( "Automaton " + QString::number( automaton_->get_automaton_index() ) + " output" );
-     layout->addWidget( info );
+     info_label_ = new QLabel( gb );
+     layout->addWidget( info_label_ );
      gb->setLayout( layout );
 
      output_info_ = scene()->addWidget( gb );
      output_info_->setPos(
           scenePos().x() - 100, scenePos().y() + 20
      );
+     output_info_->setParentItem( this );
+     output_info_->hide();
 }
 
 
 void ConnectorGI::hoverEnterEvent( QGraphicsSceneHoverEvent * )
 {
-     if ( output_info_ )
-          return;
-     setup_output();
+     output_info_->show();
 }
 
 
 void ConnectorGI::hoverLeaveEvent( QGraphicsSceneHoverEvent * )
 {
-     if ( !output_fixed_ && output_info_ && scene() )
+     if ( !output_fixed_ )
      {
-          scene()->removeItem( output_info_ );
-          delete output_info_;
-          output_info_ = nullptr;
+          output_info_->hide();
      }
 }
 

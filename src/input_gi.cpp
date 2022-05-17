@@ -8,10 +8,8 @@
 #include <QDialogButtonBox>
 #include <QGraphicsSceneMouseEvent>
 
-InputGI::InputGI()
-{
-
-}
+InputGI::InputGI( QGraphicsScene *scene ):
+     ElementGI::ElementGI( scene ) {}
 
 
 QRectF InputGI::boundingRect() const
@@ -27,6 +25,20 @@ void InputGI::paint( QPainter *painter, const QStyleOptionGraphicsItem *, QWidge
      painter->setPen( Qt::black );
      painter->setBrush( Qt::red );
      painter->drawPolygon( polygon );
+}
+
+
+bool InputGI::empty() const
+{
+     return data_.empty();
+}
+
+
+QString InputGI::popData()
+{
+     QString str = data_.at( 0 );
+     data_.pop_front();
+     return str;
 }
 
 

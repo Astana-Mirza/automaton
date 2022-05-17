@@ -2,11 +2,12 @@
 #define ELEMENT_GI_H
 
 #include <QGraphicsItem>
+#include <QGraphicsScene>
 
 class ElementGI : public QGraphicsItem
 {
 public:
-     virtual ~ElementGI() = default;
+     ElementGI( QGraphicsScene *scene ) { scene->addItem( this ); }
      virtual void set_input ( ElementGI* input  ) { input_ = input; }
      virtual void set_output( ElementGI* output ) { output_ = output; }
 

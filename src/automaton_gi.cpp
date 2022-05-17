@@ -6,16 +6,15 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QString>
 
-AutomatonGI::AutomatonGI( size_t index ):
-     automaton_index_{ index }, connector_{ nullptr }
+AutomatonGI::AutomatonGI( QGraphicsScene *scene, size_t index ):
+     ElementGI::ElementGI( scene ), automaton_index_{ index }, connector_{ nullptr }
 {
      setFlag( QGraphicsItem::ItemIsSelectable, true );
-}
-
-
-AutomatonGI::~AutomatonGI()
-{
-     delete connector_;
+     connector_ = new ConnectorGI( this );
+     connector_->setPos(
+          scenePos().x() + ( boundingRect().width() / 2 - 15 ) + ( connector_->boundingRect().width() / 2 ),
+          scenePos().y()
+     );
 }
 
 
@@ -127,23 +126,6 @@ void AutomatonGI::mouseReleaseEvent( QGraphicsSceneMouseEvent * )
 void AutomatonGI::set_output( ElementGI* output )
 {
      ElementGI::set_output( output );
-     if ( !output )
-     {
-          if ( connector_ )
-          {
-               scene()->removeItem( connector_ );
-          }
-          connector_ = nullptr;
-     }
-     else
-     {
-          connector_ = new ConnectorGI( this );
-          connector_->setPos(
-               scenePos().x() + ( boundingRect().width() / 2 - 15 ) + ( connector_->boundingRect().width() / 2 ),
-               scenePos().y()
-          );
-          scene()->addItem( connector_ );
-     }
      update();
 }
 
