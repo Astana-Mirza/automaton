@@ -71,6 +71,16 @@ void AutomatonGI::mousePressEvent( QGraphicsSceneMouseEvent *event )
 }
 
 
+void AutomatonGI::self_destroy() const
+{
+     if ( is_output_set() )
+          get_output()->set_input( nullptr );
+     if ( is_input_set() )
+          get_input()->set_output( nullptr );
+     delete this;
+}
+
+
 void AutomatonGI::mouseReleaseEvent( QGraphicsSceneMouseEvent * )
 {
      setCursor( QCursor( Qt::ArrowCursor ) );

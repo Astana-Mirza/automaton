@@ -4,6 +4,8 @@
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QTextEdit>
+#include <QPushButton>
+#include <QMessageBox>
 
 CryptoAutomatonGI::CryptoAutomatonGI( QGraphicsScene *scene,
                                       const std::string& init_state,
@@ -33,6 +35,32 @@ void CryptoAutomatonGI::show_info() const
      QTextEdit* state_info = new QTextEdit( info_dialog );
      QLabel* key_label = new QLabel( "Crypto automaton key:", info_dialog );
      QTextEdit* key_info = new QTextEdit( info_dialog );
+     QPushButton* delete_btn = new QPushButton( info_dialog );
+
+     delete_btn->setText( "Delete automaton" );
+     delete_btn->setStyleSheet( "border: none; color: white; background-color: red; border-radius: 5px; min-height: 32px;" );
+     delete_btn->setCursor( QCursor( Qt::PointingHandCursor ) );
+     info_dialog->connect( delete_btn, &QPushButton::clicked, info_dialog,
+              [ this, info_dialog ]()
+          {
+               QMessageBox msgBox;
+               msgBox.setText( QString( "Crypto automaton %0 deletion" ).arg( get_automaton_index() ) );
+               msgBox.setInformativeText( "Are you sure you want to delete this crypto automaton?" );
+               msgBox.setStandardButtons( QMessageBox::No | QMessageBox::Yes );
+               msgBox.setDefaultButton( QMessageBox::No );
+               switch (msgBox.exec())
+               {
+                    case QMessageBox::No:
+                         return;
+                    case QMessageBox::Yes:
+                         self_destroy();
+                         info_dialog->done( 0 );
+                         return;
+                    default:
+                         return;
+             }
+          }
+     );
 
      state_info->setText( QString::fromStdString( processor_.get_state() ) );
      state_info->setLineWrapMode( QTextEdit::NoWrap );
@@ -49,6 +77,7 @@ void CryptoAutomatonGI::show_info() const
      layout->addWidget( state_info );
      layout->addWidget( key_label );
      layout->addWidget( key_info );
+     layout->addWidget( delete_btn );
 
      info_dialog->setWindowTitle( "Crypto automaton " + QString::number( get_automaton_index() ) + " info" );
      info_dialog->setLayout( layout );

@@ -29,6 +29,7 @@ protected:
 
      bool check_input_colliding( QGraphicsItem* item );
      virtual void show_info() const = 0;
+     void self_destroy() const;
 };
 
 #endif // AUTOMATON_GI_H
