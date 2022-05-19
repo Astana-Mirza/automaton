@@ -18,7 +18,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 QMAKE_CXXFLAGS += $$system(python3-config --includes)
 DESTDIR = $${PWD}/build
 LIBS += $$system(python3-config --embed --ldflags)
-unix:LIBS   += -L$${PWD}/extern/libkam/build -lkam
 
 INCLUDEPATH += extern/pybind11/include \
                extern/libkam/include   \
@@ -30,12 +29,6 @@ ADAPTOR_DESTDIR = $${DESTDIR}/adaptors
 ADAPTOR_CXX = g++ -O3 $${QMAKE_CXXFLAGS} -shared -fPIC    \
               $(python3 -m pybind11 --includes)           \
               -I$${PWD}/extern/pybind11/include -std=c++2a
-
-
-make_libkam.target   = $${PWD}/extern/libkam/build/libkam.so
-make_libkam.commands = cd $${PWD}/extern/libkam && \
-                       make &&                     \
-                       cd ../../
 
 
 adaptor_prepare.target = $${DESTDIR}/adaptors
@@ -54,17 +47,29 @@ vector_adaptor.commands = $${ADAPTOR_CXX} $${PWD}/$${ADAPTOR_DIR}/vector_adaptor
 vector_adaptor.depends = adaptor_prepare
 
 
-PRE_TARGETDEPS      += $${PWD}/extern/libkam/build/libkam.so                                      \
-                       $${ADAPTOR_DESTDIR}/bit$$system(python3-config --extension-suffix)         \
+PRE_TARGETDEPS      += $${ADAPTOR_DESTDIR}/bit$$system(python3-config --extension-suffix)         \
                        $${ADAPTOR_DESTDIR}/vector$$system(python3-config --extension-suffix)
-QMAKE_EXTRA_TARGETS += make_libkam adaptor_prepare bit_adaptor vector_adaptor
+QMAKE_EXTRA_TARGETS += adaptor_prepare bit_adaptor vector_adaptor
 
 
 SOURCES += \
+    src/crypto_automaton_gi.cpp \
+    src/finite_automaton_gi.cpp \
+    src/connector_gi.cpp \
+    src/initial_info_dialog.cpp \
+    src/input_gi.cpp \
+    src/automaton_gi.cpp \
     src/main.cpp \
     src/mainwindow.cpp
 
 HEADERS += \
+    include/automaton_gi.h \
+    include/connector_gi.h \
+    include/element_gi.h \
+    include/finite_automaton_gi.h \
+    include/crypto_automaton_gi.h \
+    include/initial_info_dialog.h \
+    include/input_gi.h \
     include/mainwindow.h \
     include/python_function.h
 

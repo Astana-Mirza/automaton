@@ -1,8 +1,8 @@
 #ifndef PYTHON_FUNCTION_H
 #define PYTHON_FUNCTION_H
 
-#include <string>
 #include <pybind11/pybind11.h>
+#include <string>
 
 template < typename Out >
 class PythonFunction
@@ -30,8 +30,11 @@ PythonFunction< Out >::PythonFunction( const std::string& file, const std::strin
 template < typename Out >
 void PythonFunction< Out >::set_function( const std::string& file, const std::string& func_name )
 {
-     func_ = pybind11::reinterpret_steal< pybind11::function >(
-                    pybind11::module_::import( file.c_str() ).attr( func_name.c_str() ) );
+     auto util = pybind11::module_::import( "importlib" ).attr( "util" );
+     auto spec = util.attr( "spec_from_file_location" )( "", file.c_str() );
+     auto module = util.attr( "module_from_spec" )( spec );
+     spec.attr( "loader" ).attr( "exec_module" )( module );
+     func_ = pybind11::reinterpret_steal< pybind11::function >( module.attr( func_name.c_str() ) );
 }
 
 

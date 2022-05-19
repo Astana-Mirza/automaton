@@ -13,7 +13,22 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QWidget" name="centralwidget">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <layout class="QGridLayout" name="gridLayout_2">
+    <item row="0" column="0">
+     <widget class="QGraphicsView" name="graphicsView"/>
+    </item>
+   </layout>
+  </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
@@ -23,31 +38,54 @@
      <height>22</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menu">
+   <widget class="QMenu" name="menuAutomaton">
     <property name="title">
-     <string>File</string>
+     <string>New</string>
     </property>
-    <addaction name="action_open"/>
-    <addaction name="separator"/>
-    <addaction name="action_save"/>
-    <addaction name="action_save_as"/>
+    <addaction name="action_add_finite_automaton"/>
+    <addaction name="action_add_crypto_automaton"/>
    </widget>
-   <addaction name="menu"/>
+   <widget class="QMenu" name="menuRun">
+    <property name="title">
+     <string>Run</string>
+    </property>
+    <addaction name="action_run_step"/>
+    <addaction name="action_run_all"/>
+   </widget>
+   <addaction name="menuAutomaton"/>
+   <addaction name="menuRun"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="action_open">
+  <action name="action_add_finite_automaton">
    <property name="text">
-    <string>Open</string>
+    <string>Finite automaton</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
    </property>
   </action>
-  <action name="action_save">
+  <action name="action_add_crypto_automaton">
    <property name="text">
-    <string>Save</string>
+    <string>Crypto automaton</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+N</string>
    </property>
   </action>
-  <action name="action_save_as">
+  <action name="action_run_step">
    <property name="text">
-    <string>Save as</string>
+    <string>One step</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
+   </property>
+  </action>
+  <action name="action_run_all">
+   <property name="text">
+    <string>All</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+R</string>
    </property>
   </action>
  </widget>
