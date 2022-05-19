@@ -1,2 +1,6 @@
 automaton.pro.user
 build/*
+obj/*
+examples/__pycache__/*
+.qmake.stash
+Makefile

@@ -16,7 +16,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 QMAKE_CXXFLAGS += $$system(python3-config --includes)
-DESTDIR = $${PWD}/build
+
+DESTDIR     = $${PWD}/build
+OBJECTS_DIR = $${PWD}/obj
+MOC_DIR     = $${PWD}/obj
+UI_DIR      = $${PWD}/obj
+
 LIBS += $$system(python3-config --embed --ldflags)
 
 INCLUDEPATH += extern/pybind11/include \

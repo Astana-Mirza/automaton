@@ -29,7 +29,6 @@ private:
      void setup_scene();
      void setup_timer();
 
-     pybind11::scoped_interpreter guard_;
      size_t automaton_count_;
      Ui::MainWindow *ui_;
      QGraphicsScene* scene_;

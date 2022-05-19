@@ -11,9 +11,10 @@
 namespace py = pybind11;
 
 MainWindow::MainWindow( QWidget *parent ):
-     QMainWindow( parent ), automaton_count_{ 0 }, ui_( new Ui::MainWindow )
+     QMainWindow( parent ), automaton_count_{ 0 }, ui_{ new Ui::MainWindow }
 {
      ui_->setupUi( this );
+     py::initialize_interpreter();
      // add path to import adaptors
      py::exec( R"(
           import sys
@@ -29,6 +30,7 @@ MainWindow::~MainWindow()
 {
      delete ui_;
      delete scene_;
+     py::finalize_interpreter();
 }
 
 

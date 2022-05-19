@@ -34,7 +34,7 @@ void PythonFunction< Out >::set_function( const std::string& file, const std::st
      auto spec = util.attr( "spec_from_file_location" )( "", file.c_str() );
      auto module = util.attr( "module_from_spec" )( spec );
      spec.attr( "loader" ).attr( "exec_module" )( module );
-     func_ = pybind11::reinterpret_steal< pybind11::function >( module.attr( func_name.c_str() ) );
+     func_ = pybind11::reinterpret_borrow< pybind11::function >( module.attr( func_name.c_str() ) );
 }
 
 
