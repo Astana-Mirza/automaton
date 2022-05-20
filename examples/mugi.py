@@ -12,9 +12,13 @@ def mugi_transition( data_, state_, key_ = "" ):
     const_C1 = 0xBB67AE8584CAA73B
     const_C2 = 0x3C6EF372FE94F82B
 
+    assert all( c in '0123456789 ' for c in data_  ), "input must contain only positive integer numbers separated with space"
+
     old_state = list( map( int, state_.split() ) )
     state = [ 0 ] * 19
 
+    assert len( old_state ) == 19, "input must contain 19 positive integer numbers"
+    
     state[ 0 ] = old_state[ 1 ]
     state[ 1 ] = old_state[ 2 ] ^ F( old_state[ 1 ], old_state[ 7 ] ) ^ const_C1
     state[ 2 ] = old_state[ 0 ] ^ F( old_state[ 1 ], rotl64( old_state[ 13 ], 17 ) ) ^ const_C2
@@ -33,7 +37,10 @@ def mugi_transition( data_, state_, key_ = "" ):
     return " ".join( list( map( str, state ) ) )
 
 
-def mugi_transition( data_, state_, key_ = "" ):
+def mugi_output( data_, state_, key_ = "" ):
+    assert all( c in '0123456789 ' for c in data_  ), "input must contain only positive integer numbers separated with space"
+    assert len( list( map( int, state_.split() ) ) ) == 19, "input must contain 19 positive integer numbers"
+    
     return str( list( map( int, state_.split() ) )[ 2 ] )
 
 
@@ -108,7 +115,7 @@ def base_linear_transformation( bytes_array_ ):
     return result % ( 1 << 8 )
 
 
-# Пример входных данных (одна строка - один шаг автомата):
+# Примеры начальных состояний
 # 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
 # 1 1 2 8 3 8 2 1 5 8 5 7 2 6 1 2 9 4 6
 # 71208517 97009494 49032428 22267787 188387 92458749 48402388 36848678 33671321 58536577 13859800 67813940 27881323 50124685 79267337 62715503 28582515 17816742 1823621
