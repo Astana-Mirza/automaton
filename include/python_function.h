@@ -30,7 +30,7 @@ PythonFunction< Out >::PythonFunction( const std::string& file, const std::strin
 template < typename Out >
 void PythonFunction< Out >::set_function( const std::string& file, const std::string& func_name )
 {
-     auto util = pybind11::module_::import( "importlib" ).attr( "util" );
+     auto util = pybind11::module_::import( "importlib.util" );
      auto spec = util.attr( "spec_from_file_location" )( "", file.c_str() );
      auto module = util.attr( "module_from_spec" )( spec );
      spec.attr( "loader" ).attr( "exec_module" )( module );
